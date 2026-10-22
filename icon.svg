@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+<defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#292b55"/><stop offset="1" stop-color="#111c35"/></linearGradient><linearGradient id="t" x1="0" x2="1"><stop stop-color="#c8baff"/><stop offset="1" stop-color="#6fe7ce"/></linearGradient></defs>
+<rect width="512" height="512" rx="112" fill="url(#g)"/><rect x="47" y="47" width="418" height="418" rx="91" fill="none" stroke="#c8baff" stroke-opacity=".35" stroke-width="8"/>
+<circle cx="256" cy="244" r="113" fill="none" stroke="url(#t)" stroke-width="12" stroke-dasharray="15 21" stroke-linecap="round"/><circle cx="256" cy="244" r="77" fill="#c4b3ff" fill-opacity=".16"/><path d="M256 179l18 45 48 20-48 19-18 45-18-45-48-19 48-20z" fill="url(#t)"/>
+<circle cx="256" cy="125" r="26" fill="#beafff"/><circle cx="377" cy="244" r="26" fill="#80dfce"/><circle cx="256" cy="362" r="26" fill="#f0c493"/><circle cx="135" cy="244" r="26" fill="#8abaff"/>
+<text x="256" y="430" fill="#f4f1ff" font-size="43" font-family="Arial, sans-serif" text-anchor="middle" font-weight="800" letter-spacing="5">ATIF AI</text></svg>

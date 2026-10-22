@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101529">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="مكتب عاطف الذكي: خلود وديالا وجوانا وأنس في مكان واحد.">
+<meta name="application-name" content="Atif AI Office">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icon.svg">
+<link rel="stylesheet" href="./styles.css">
+<title>Atif AI Office | مكتب عاطف الذكي</title>
+</head>
+<body>
+<div id="app">
+<aside class="sidebar">
+ <div class="brand"><span class="brand-mark">✦</span><div><strong>ATIF <span>AI</span> OFFICE</strong><small>مكتبك التنفيذي الذكي</small></div></div>
+ <div class="sidebar-cap">مساحة العمل</div>
+ <nav class="primary-nav" aria-label="التنقل الرئيسي">
+  <button data-route="dashboard" class="nav active"><span>◫</span> نظرة عامة</button>
+  <button data-route="chat" class="nav"><span>◉</span> غرفة المحادثات</button>
+  <button data-route="tasks" class="nav"><span>☷</span> إدارة المهام</button>
+  <button data-route="approvals" class="nav"><span>✓</span> الاعتمادات <em id="nav-approval-count">0</em></button>
+ </nav>
+ <div class="sidebar-cap with-space">فريقك الرقمي <span>04</span></div>
+ <div class="mini-agents" id="mini-agents"></div>
+ <div class="sidebar-bottom"><div class="security-dot"></div><div><strong>مساحة خاصة</strong><small>البيانات محفوظة على هذا الجهاز</small></div></div>
+ <button data-route="settings" class="nav settings-nav"><span>⚙</span> الإعدادات</button>
+</aside>
+<div class="app-main">
+ <header class="topbar">
+  <div class="breadcrumb"><span class="crumb-muted">مساحة العمل</span><span> / </span><strong id="page-title">نظرة عامة</strong></div>
+  <div class="top-actions"><span id="today-label"></span><button id="install-btn" class="btn btn-ghost" hidden>تثبيت التطبيق ↙</button><span class="header-avatar">ع</span></div>
+ </header>
+ <main class="main-content">
+  <section id="view-dashboard" class="view active" aria-label="لوحة التحكم">
+   <div class="hero"><div class="hero-glow"></div><div class="hero-body"><p class="eyebrow">✦ مركز القيادة الذكي</p><h1>أهلًا بك في مكتبك الرقمي<span class="hero-period">.</span></h1><p>أربعة متخصصين، مساحة عمل واحدة، ورؤية واضحة لكل مهمة.</p><div class="hero-actions"><button class="btn btn-primary" data-action="new-task">+ مهمة جديدة</button><button class="btn btn-ghost hero-outline" data-route="chat">افتح غرفة المحادثات ←</button></div></div><div class="hero-orbit" aria-hidden="true"><span>خ</span><span>د</span><span>ج</span><span>أ</span><b>AI</b></div></div>
+   <div class="section-heading"><div><p class="eyebrow">المؤشرات المباشرة</p><h2>ملخص العمل</h2></div><small>يتم تحديث البيانات على هذا الجهاز</small></div>
+   <div class="stats" id="stats"></div>
+   <div class="section-heading"><div><p class="eyebrow">YOUR AI TEAM</p><h2>تعرّف على فريقك</h2></div><button class="text-btn" data-route="chat">المحادثات ←</button></div>
+   <div class="agent-grid" id="agent-grid"></div>
+   <div class="section-heading"><div><p class="eyebrow">WORK IN PROGRESS</p><h2>آخر المهام</h2></div><button class="text-btn" data-route="tasks">عرض جميع المهام ←</button></div>
+   <div class="panel task-preview" id="recent-tasks"></div>
+  </section>
+  <section id="view-chat" class="view" aria-label="غرفة المحادثات">
+   <div class="section-heading top-heading"><div><p class="eyebrow">AGENT WORKSPACE</p><h1>غرفة المحادثات</h1><p class="subtext">اختر الوكيل المناسب، وتابع محادثاتك في مكان واحد.</p></div></div>
+   <div class="chat-shell"><div class="chat-agents" id="chat-agents"></div><div class="chat-panel"><div class="chat-head"><span class="round-avatar" id="chat-avatar">خ</span><div><strong id="chat-agent-name">خلود</strong><small id="chat-agent-role">الموارد البشرية والامتثال</small></div><span class="chat-status" id="chat-connection-status">غير متصل بمحرك AI</span></div><div id="chat-messages" class="chat-messages" aria-live="polite"></div><div class="chat-compose"><div class="chat-notice">لإجابات AI حقيقية، اربط خادمًا آمنًا من الإعدادات. لا تضع بيانات موظفين حساسة في النسخة المحلية.</div><form id="chat-form" class="compose-row"><textarea id="chat-input" rows="2" placeholder="اكتب رسالتك للوكيل..." maxlength="5000" required></textarea><button class="btn btn-primary send-btn" type="submit" aria-label="إرسال">↗</button></form></div></div></div>
+  </section>
+  <section id="view-tasks" class="view" aria-label="المهام">
+   <div class="section-heading top-heading"><div><p class="eyebrow">TASK MANAGEMENT</p><h1>إدارة المهام</h1><p class="subtext">كل ما يحتاج فريقك إلى متابعته، في مكان واحد.</p></div><button class="btn btn-primary" data-action="new-task">+ إنشاء مهمة</button></div>
+   <div class="filter-row"><input id="task-search" class="field search" placeholder="بحث في المهام..."><select id="task-filter" class="field"><option value="all">جميع الحالات</option><option value="pending">جديدة</option><option value="progress">قيد العمل</option><option value="review">بانتظار الاعتماد</option><option value="done">مكتملة</option></select><select id="agent-filter" class="field"><option value="all">جميع الوكلاء</option><option value="khulood">خلود</option><option value="diala">ديالا</option><option value="joanna">جوانا</option><option value="anas">أنس</option></select></div>
+   <div class="panel" id="tasks-list"></div>
+  </section>
+  <section id="view-approvals" class="view" aria-label="الاعتمادات">
+   <div class="section-heading top-heading"><div><p class="eyebrow">CONTROL & REVIEW</p><h1>الاعتمادات</h1><p class="subtext">راجع الطلبات قبل إتمامها. اعتماد الحالة هنا لا ينفّذ إجراءات في أنظمة خارجية.</p></div></div>
+   <div class="panel" id="approvals-list"></div>
+  </section>
+  <section id="view-settings" class="view" aria-label="الإعدادات">
+   <div class="section-heading top-heading"><div><p class="eyebrow">WORKSPACE PREFERENCES</p><h1>الإعدادات</h1><p class="subtext">خيارات الخصوصية والنسخ الاحتياطي وربط المحرك.</p></div></div>
+   <div class="settings-grid">
+    <div class="panel settings-box"><h2>الاتصال بمحرك AI</h2><p>يجب أن يكون عنوان API لخادمك الآمن. لا تُدخل مفتاح OpenAI في المتصفح. يستخدم التطبيق اتصال HTTPS فقط.</p><label for="api-endpoint">عنوان واجهة API</label><input id="api-endpoint" class="field" type="url" placeholder="https://your-server.example.com/api/chat"><label for="access-code">رمز الوصول للخادم (اختياري)</label><input id="access-code" class="field" type="password" placeholder="أدخله في كل جلسة عند الحاجة" autocomplete="off"><small>لا يُحفظ رمز الوصول بصورة دائمة، بل خلال جلسة التصفح الحالية.</small><div class="setting-actions"><button class="btn btn-primary" id="save-api">حفظ العنوان</button><button class="btn btn-ghost" id="clear-api">قطع الاتصال</button></div></div>
+    <div class="panel settings-box"><h2>بيانات مساحة العمل</h2><p>المهام والمحادثات محفوظة محليًا في متصفحك، وليست متزامنة بين الأجهزة.</p><div class="setting-actions"><button id="export-data" class="btn btn-ghost">تصدير نسخة JSON</button><label class="btn btn-ghost file-label">استيراد نسخة <input type="file" id="import-data" accept=".json,application/json" hidden></label></div><div class="divider-line"></div><h3>الخصوصية</h3><p>لا تدخل بيانات رواتب أو هويات أو ملفات قانونية حساسة حتى يتم إعداد المصادقة والتخزين الآمن والصلاحيات.</p><button class="btn btn-danger" id="erase-data">مسح بيانات هذا الجهاز</button></div>
+    <div class="panel settings-box"><h2>تثبيت التطبيق على الجوال</h2><p>افتح رابط التطبيق المنشور عبر HTTPS في Chrome على أندرويد، ثم القائمة ⋮ ← إضافة إلى الشاشة الرئيسية أو تثبيت التطبيق.</p><button class="btn btn-ghost" id="manual-install">عرض التعليمات</button><p id="app-version">الإصدار 0.1.0 — نسخة أولية</p></div>
+    <div class="panel settings-box"><h2>حدود النسخة الحالية</h2><p>يمكن إضافة المهام وتعديلها وحفظ المحادثات دون إنترنت. الردود الذكية تتطلب خادمًا موصولًا. تنفيذ عمليات Gmail وHRIS وغيرها يحتاج إلى تكاملات وصلاحيات خادمية مستقلة.</p></div>
+   </div>
+  </section>
+ </main>
+ <nav class="mobile-nav" aria-label="شريط الجوال"><button data-route="dashboard" class="active"><span>⌂</span>الرئيسية</button><button data-route="chat"><span>◉</span>الفريق</button><button data-route="tasks"><span>☷</span>المهام</button><button data-route="approvals"><span>✓</span>الاعتماد</button><button data-route="settings"><span>⚙</span>المزيد</button></nav>
+</div>
+</div>
+<div id="modal-backdrop" class="modal-backdrop" hidden><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal-head"><h2 id="modal-title">مهمة جديدة</h2><button id="close-modal" aria-label="إغلاق">×</button></div><form id="task-form"><label for="task-title">عنوان المهمة</label><input id="task-title" class="field" required maxlength="130" placeholder="مثال: مراجعة تقرير الموارد البشرية"><label for="task-agent">المسؤول</label><select id="task-agent" class="field"><option value="khulood">خلود</option><option value="diala">ديالا</option><option value="joanna">جوانا</option><option value="anas">أنس</option></select><label for="task-note">تفاصيل إضافية</label><textarea id="task-note" class="field" rows="3" maxlength="2000" placeholder="تعليمات أو ملاحظات"></textarea><button type="submit" class="btn btn-primary full-btn">إضافة المهمة</button></form></div></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script src="./app.js" defer></script>
+</body>
+</html>
