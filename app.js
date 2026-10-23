@@ -10,6 +10,7 @@ const $=(sel,base=document)=>base.querySelector(sel);
 const $$=(sel,base=document)=>[...base.querySelectorAll(sel)];
 const emptyState={tasks:[],chats:{khulood:[],diala:[],joanna:[],anas:[]},endpoint:''};
 let db=load(), activeAgent='khulood', currentRoute='dashboard', deferredInstall=null;
+const runningTasks=new Set();
 function load(){try{const d=JSON.parse(localStorage.getItem(KEY)||'null');if(!d||typeof d!=='object')return structuredClone(emptyState);return {tasks:Array.isArray(d.tasks)?d.tasks:[],chats:{...emptyState.chats,...(d.chats||{})},endpoint:typeof d.endpoint==='string'?d.endpoint:''};}catch{return structuredClone(emptyState)}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(db));}catch{toast('تعذر الحفظ المحلي. تحقق من مساحة الجهاز.');}}
 function safe(t){return String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
@@ -26,7 +27,7 @@ function taskRow(t,edit){
  const note=t.note?' • '+safe(t.note.slice(0,80)):'';
  const result=t.result?'<details class="task-result"><summary>عرض مخرجات '+a.name+'</summary><div>'+safe(t.result)+'</div><small>هذه مسودة ذكاء اصطناعي للمراجعة، ولم تنفذ أي إجراءات خارجية.</small></details>':'';
  const error=t.error?'<div class="task-error">فشل تنفيذ النموذج: '+safe(t.error)+'</div>':'';
- const tools=edit?'<div class="task-controls">'+(t.status!=='done'?'<button class="btn btn-run" data-run-task="'+safe(t.id)+'" '+(t.status==='progress'?'disabled':'')+'>'+(t.status==='progress'?'جارٍ التنفيذ...':t.result?'إعادة المعالجة':'تشغيل الوكيل')+'</button>':'')+(t.status==='review'&&t.result?'<button class="btn btn-approve" data-approve-task="'+safe(t.id)+'">اعتماد المسودة</button>':'')+'<button class="trash" data-delete-task="'+safe(t.id)+'" aria-label="حذف">✕</button></div>':'';
+ const tools=edit?'<div class="task-controls">'+(t.status!=='done'?'<button class="btn btn-run" data-run-task="'+safe(t.id)+'" '+(runningTasks.has(t.id)?'disabled':'')+'>'+(runningTasks.has(t.id)?'جارٍ التنفيذ...':t.result?'إعادة المعالجة':'تشغيل الوكيل')+'</button>':'')+(t.status==='review'&&t.result?'<button class="btn btn-approve" data-approve-task="'+safe(t.id)+'">اعتماد المسودة</button>':'')+'<button class="trash" data-delete-task="'+safe(t.id)+'" aria-label="حذف">✕</button></div>':'';
  return '<article class="task-row task-row-extended"><span class="task-icon" style="color:'+a.color+'">'+a.letter+'</span><div class="task-summary"><strong>'+safe(t.title)+'</strong><small>'+a.name+' • '+safe(time(t.createdAt))+note+'</small></div><span class="status status-'+s[1]+'">'+s[0]+'</span>'+tools+(result||error?'<div class="task-details">'+error+result+'</div>':'')+'</article>';
 }
 function renderTasks(){let q=$('#task-search').value.trim().toLowerCase(),f=$('#task-filter').value,who=$('#agent-filter').value;let a=[...db.tasks].sort((x,y)=>new Date(y.createdAt)-new Date(x.createdAt));$('#recent-tasks').innerHTML=a.length?a.slice(0,5).map(t=>taskRow(t,false)).join(''):empty('لا توجد مهام بعد','ابدأ بتكليف أحد أعضاء فريقك');let list=a.filter(t=>(f==='all'||t.status===f)&&(who==='all'||t.agent===who)&&(!q||(t.title+' '+t.note).toLowerCase().includes(q)));$('#tasks-list').innerHTML=list.length?list.map(t=>taskRow(t,true)).join(''):empty('لا توجد مهام مطابقة','أنشئ مهمة جديدة أو غيّر عوامل التصفية');let review=a.filter(t=>t.status==='review');$('#approvals-list').innerHTML=review.length?review.map(t=>taskRow(t,true)).join(''):empty('لا توجد اعتمادات معلقة','ستظهر هنا المهام التي تحوّلها إلى بانتظار الاعتماد');}
@@ -42,19 +43,19 @@ function addTask(title,who,note){
 }
 async function runTask(id){
  const t=db.tasks.find(x=>x.id===id);
- if(!t||t.status==='progress'||t.status==='done')return;
+ if(!t||runningTasks.has(id)||t.status==='done')return;
  if(!db.endpoint){toast('لم يتم ربط النموذج اللغوي. افتح الإعدادات.');route('settings');return;}
  const access=sessionStorage.getItem('atif-office-code')||'';
  if(!access){toast('أدخل رمز وصول الخادم من الإعدادات.');route('settings');return;}
- t.status='progress';t.error='';save();render();
+ runningTasks.add(id);t.status='progress';t.error='';save();render();
  try{
   const resp=await fetch(db.endpoint,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+access},body:JSON.stringify({action:'execute_task',agent:t.agent,task:{id:t.id,title:t.title,note:t.note}})});
   let data={};try{data=await resp.json()}catch{}
   if(!resp.ok)throw Error(data.error||'HTTP '+resp.status);
   if(typeof data.reply!=='string'||!data.reply.trim())throw Error('استجابة فارغة من النموذج');
-  t.result=data.reply.slice(0,30000);t.status='review';t.error='';t.completedAt=new Date().toISOString();save();render();
+  t.result=data.reply.slice(0,30000);t.status='review';t.error='';t.completedAt=new Date().toISOString();runningTasks.delete(id);save();render();
   toast('أنجز النموذج مسودة المهمة، راجع النتيجة.');
- }catch(e){t.status='pending';t.error=String(e.message||'فشل الاتصال').slice(0,240);save();render();toast('تعذر تشغيل المهمة، تحقق من الخطأ.');}
+ }catch(e){t.status='pending';t.error=String(e.message||'فشل الاتصال').slice(0,240);runningTasks.delete(id);save();render();toast('تعذر تشغيل المهمة، تحقق من الخطأ.');}
 }
 function chatAdd(a,role,text){if(!db.chats[a])db.chats[a]=[];db.chats[a].push({role,text,createdAt:new Date().toISOString()});db.chats[a]=db.chats[a].slice(-80);save();renderChat();}
 async function sendChat(text){
