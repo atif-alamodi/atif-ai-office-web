@@ -15,3 +15,14 @@
 .connection-check{background:#0d1828;border:1px solid #6378a53d;padding:13px 14px;border-radius:13px;display:flex;flex-direction:column;gap:7px}
 .connection-check strong{font-size:13px}.connection-check #diagnostic-status{color:#edc997;line-height:2;font-size:12px}
 .connection-check a.btn{min-width:0;text-align:center}
+
+.btn-connect-inline{width:100%;margin:0 0 10px;background:#2f2854;color:#e4d8ff;border:1px solid #7e68bf;justify-content:center}
+.btn-connect-inline[hidden]{display:none}
+.connect-dialog{max-width:465px}
+.connect-description{line-height:2;font-size:13px;color:#c6d3e8;margin:0 0 15px}
+.connect-description strong{color:#e5d4ff}
+.connect-form{display:flex;flex-direction:column;gap:10px}
+.connect-form label{font-size:13px;color:#d9e5f9;font-weight:700}
+.connect-error{color:#ffb2b2;min-height:18px;line-height:1.7;font-size:12px}
+.connect-foot{line-height:1.8;color:#93a6c3;margin:16px 0 0;font-size:11px}
+#chat-connection-status{max-width:230px;text-wrap:balance;line-height:1.5}

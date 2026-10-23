@@ -48,7 +48,7 @@
   </section>
   <section id="view-chat" class="view" aria-label="غرفة المحادثات">
    <div class="section-heading top-heading"><div><p class="eyebrow">AGENT WORKSPACE</p><h1>غرفة المحادثات</h1><p class="subtext">اختر الوكيل المناسب، وتابع محادثاتك في مكان واحد.</p></div></div>
-   <div class="chat-shell"><div class="chat-agents" id="chat-agents"></div><div class="chat-panel"><div class="chat-head"><span class="round-avatar" id="chat-avatar">خ</span><div><strong id="chat-agent-name">خلود</strong><small id="chat-agent-role">الموارد البشرية والامتثال</small></div><span class="chat-status" id="chat-connection-status">غير متصل بمحرك AI</span></div><div id="chat-messages" class="chat-messages" aria-live="polite"></div><div class="chat-compose"><div class="chat-notice">لإجابات AI حقيقية، اربط خادمًا آمنًا من الإعدادات. لا تضع بيانات موظفين حساسة في النسخة المحلية.</div><form id="chat-form" class="compose-row"><textarea id="chat-input" rows="2" placeholder="اكتب رسالتك للوكيل..." maxlength="5000" required></textarea><button class="btn btn-primary send-btn" type="submit" aria-label="إرسال">↗</button></form></div></div></div>
+   <div class="chat-shell"><div class="chat-agents" id="chat-agents"></div><div class="chat-panel"><div class="chat-head"><span class="round-avatar" id="chat-avatar">خ</span><div><strong id="chat-agent-name">خلود</strong><small id="chat-agent-role">الموارد البشرية والامتثال</small></div><span class="chat-status" id="chat-connection-status">غير متصل بمحرك AI</span></div><div id="chat-messages" class="chat-messages" aria-live="polite"></div><div class="chat-compose"><div class="chat-notice" id="chat-auth-notice">يستخدم فريقك نموذج GPT-OSS المجاني. أدخل رمز دخول المكتب مرة واحدة لكل جلسة، ولا تستخدم بيانات موظفين حساسة.</div><button type="button" id="connect-from-chat" class="btn btn-connect-inline">تفعيل الوكلاء الآن <span aria-hidden="true">←</span></button><form id="chat-form" class="compose-row"><textarea id="chat-input" rows="2" placeholder="اكتب رسالتك للوكيل..." maxlength="5000" required></textarea><button class="btn btn-primary send-btn" type="submit" aria-label="إرسال">↗</button></form></div></div></div>
   </section>
   <section id="view-tasks" class="view" aria-label="المهام">
    <div class="section-heading top-heading"><div><p class="eyebrow">TASK MANAGEMENT</p><h1>إدارة المهام</h1><p class="subtext">كل ما يحتاج فريقك إلى متابعته، في مكان واحد.</p></div><button class="btn btn-primary" data-action="new-task">+ إنشاء مهمة</button></div>
@@ -71,6 +71,19 @@
  </main>
  <nav class="mobile-nav" aria-label="شريط الجوال"><button data-route="dashboard" class="active"><span>⌂</span>الرئيسية</button><button data-route="chat"><span>◉</span>الفريق</button><button data-route="tasks"><span>☷</span>المهام</button><button data-route="approvals"><span>✓</span>الاعتماد</button><button data-route="settings"><span>⚙</span>المزيد</button></nav>
 </div>
+</div>
+<div id="connect-backdrop" class="modal-backdrop" hidden>
+ <div class="modal connect-dialog" role="dialog" aria-modal="true" aria-labelledby="connect-title">
+  <div class="modal-head"><h2 id="connect-title">تفعيل وكلائك الأربعة</h2><button type="button" id="close-connect" aria-label="إغلاق">×</button></div>
+  <p class="connect-description">محرك الذكاء الاصطناعي مجاني ويعمل على الخادم. لتأكيد أنك صاحب المكتب، أدخل <strong>رمز دخول Atif AI Office</strong> الذي حصلت عليه سابقًا، وليس مفتاح OpenAI.</p>
+  <form id="connect-form" class="connect-form">
+   <label for="connect-code">رمز دخول المكتب</label>
+   <input id="connect-code" class="field" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="الصق رمز الوصول هنا" required>
+   <p class="connect-error" id="connect-error" role="status" aria-live="polite"></p>
+   <button type="submit" id="verify-connect" class="btn btn-primary full-btn">تحقق واتصل بالوكلاء</button>
+  </form>
+  <p class="connect-foot">يُحفظ الرمز خلال جلسة المتصفح الحالية فقط، ولا يُضاف إلى GitHub ولا يظهر في صفحة التطبيق العامة.</p>
+ </div>
 </div>
 <div id="modal-backdrop" class="modal-backdrop" hidden><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal-head"><h2 id="modal-title">مهمة جديدة</h2><button id="close-modal" aria-label="إغلاق">×</button></div><form id="task-form"><label for="task-title">عنوان المهمة</label><input id="task-title" class="field" required maxlength="130" placeholder="مثال: مراجعة تقرير الموارد البشرية"><label for="task-agent">المسؤول</label><select id="task-agent" class="field"><option value="khulood">خلود</option><option value="diala">ديالا</option><option value="joanna">جوانا</option><option value="anas">أنس</option></select><label for="task-note">تفاصيل إضافية</label><textarea id="task-note" class="field" rows="3" maxlength="2000" placeholder="تعليمات أو ملاحظات"></textarea><button type="submit" class="btn btn-primary full-btn">إضافة المهمة</button></form></div></div>
 <div id="toast" role="status" aria-live="polite"></div>
