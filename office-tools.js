@@ -66,7 +66,7 @@ async function githubPublicRepo(str){
 }
 function downloadCSV(stats){
  const lines=['العمود,النوع,المفقود,نسبة المفقود,المميز,العدد الرقمي,الحد الأدنى,المتوسط,الوسيط,الحد الأعلى'];
- const quote=x=>{let s=String(x??'');if(/^\s*[=+@-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'};
+ const quote=x=>{let s=String(x??'');if(/^[=+@-]/.test(s.trimStart()))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'};
  for(const c of stats.columns){const s=c.statistics||{};lines.push([c.name,c.type,c.missing,c.missingPercent,c.unique,s.count||'',s.min??'',s.mean??'',s.median??'',s.max??''].map(quote).join(','));}
  return '\uFEFF'+lines.join('\r\n');
 }
