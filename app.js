@@ -87,7 +87,7 @@ async function diagnoseAI(){
   const data=await response.json();
   if(!response.ok)throw Error(data.error||'HTTP '+response.status);
   if(data.ready===true){
-    status.textContent='مفتاح النموذج موجود على الخادم. '+(sessionStorage.getItem('atif-office-code')?'جرّب تشغيل مهمة أو إرسال رسالة اختبار.':'أدخل رمز الوصول واضغط حفظ قبل تشغيل المهام.');
+    status.textContent='إعدادات الخادم مكتملة. صلاحية الرصيد واستخدام النموذج يتأكدان عند تشغيل مهمة فعلية. '+(sessionStorage.getItem('atif-office-code')?'جرّب تشغيل مهمة بعد تفعيل رصيد API.':'أدخل رمز الوصول واضغط حفظ، ثم جرّب مهمة.');
   }else{
     const missing=Array.isArray(data.missing)?data.missing.join('، '):'إعدادات النموذج';
     status.textContent='الخادم متاح، لكن التشغيل غير جاهز. إعدادات ناقصة: '+missing+'. أضف المفتاح في Vercel ثم أعد النشر.';
