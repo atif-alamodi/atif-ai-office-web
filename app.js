@@ -87,10 +87,10 @@ async function diagnoseAI(){
   const data=await response.json();
   if(!response.ok)throw Error(data.error||'HTTP '+response.status);
   if(data.ready===true){
-    status.textContent='نموذج NVIDIA المجاني مهيأ عبر Vercel. '+(sessionStorage.getItem('atif-office-code')?'جرّب تشغيل المهمة الآن.':'أدخل رمز دخول التطبيق واضغط حفظ، ثم شغّل المهمة.');
+    status.textContent='خادم GPT-OSS المجاني جاهز للتجربة. '+(sessionStorage.getItem('atif-office-code')?'جرّب تشغيل المهمة الآن.':'أدخل رمز دخول التطبيق واضغط حفظ، ثم شغّل المهمة.');
   }else{
     const missing=Array.isArray(data.missing)?data.missing.join('، '):'إعدادات النموذج';
-    status.textContent='الخادم متاح لكنه يحتاج إعدادًا: '+missing+'. لا تستخدم مفتاح OpenAI المدفوع.';
+    status.textContent='الخادم متاح لكنه يحتاج إعدادًا: '+missing+'. لا يلزم مفتاح نموذج مدفوع.';
   }
  }catch(err){
   status.textContent='تعذر فحص الخادم ('+String(err.message).slice(0,120)+'). تحقق من العنوان والنشر واتصال الإنترنت.';
