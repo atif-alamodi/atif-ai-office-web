@@ -37,3 +37,29 @@
 .doc-details strong{display:block;font-size:13px;line-height:1.7}
 .doc-details small{display:block;font-size:11px;color:#97aac5;margin-top:5px}
 @media(max-width:800px){.mobile-nav button{min-width:43px;font-size:9px}.doc-row .btn{padding:8px;font-size:11px}.section-heading.top-heading{flex-wrap:wrap}}
+
+.row-skills-actions{display:flex;gap:8px;flex-wrap:wrap}.skills-overview{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:19px}
+.skill-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-height:600px;overflow:auto;padding:3px}
+.skill-card{display:flex;align-items:start;flex-direction:column;gap:9px;background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}
+.skill-card .skill-title strong{font-size:14px;display:block}.skill-card .skill-title small{font-size:10px;display:block;color:var(--muted);margin-top:4px}
+.skill-card p{font-size:12px;color:var(--muted);line-height:1.8;flex:1}
+.skill-card .btn{min-height:35px;padding:7px 12px;font-size:11px;width:100%}
+.skill-state{font-size:10px;padding:5px 10px;border-radius:20px;border:1px solid var(--line)}
+.mode-local{color:#8ce7c2;background:#32634a35}.mode-ai{color:#d3c1fb;background:#63519838}.mode-integration{color:#f0c493;background:#5e472536}
+.tool-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.tool-card{display:flex;flex-direction:column;gap:12px;padding:19px;min-width:0}.tool-card h3{font-size:16px}.tool-card>p{font-size:12px;color:var(--muted);line-height:1.9}
+.tool-card .field{width:100%;box-sizing:border-box}
+.tool-form{display:flex;flex-direction:column;gap:11px}.tool-form label{font-size:11px;color:var(--muted);display:flex;flex-direction:column;gap:5px}
+.small-inputs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.tool-output{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;color:#c6d5ed;max-height:290px;overflow:auto;line-height:1.9}
+.tool-output .btn{display:block;margin-top:8px}.help-link{color:var(--primary);font-size:11px}
+.workflow-panel{padding:22px;display:flex;flex-direction:column;gap:13px}.workflow-panel label{color:var(--muted);font-size:12px}.workflow-panel textarea,.workflow-panel select{width:100%}
+.workflow-results{display:flex;flex-direction:column;gap:12px}.workflow-run{border:1px solid var(--line);border-radius:12px;padding:12px}
+.workflow-run>strong,.workflow-run>small{display:block}.workflow-run>small{margin:5px 0 10px;color:var(--muted)}
+.workflow-step{border-top:1px solid var(--line);padding:10px 4px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:12px}
+.workflow-step span{color:var(--muted)}.workflow-step details{width:100%;cursor:pointer}
+.workflow-step pre{max-height:280px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.9;background:#0d1524;padding:12px;border-radius:8px}
+.integration-row{padding:14px 18px;display:flex;gap:10px;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}
+.integration-row:last-child{border:0}.integration-row strong{display:block;font-size:13px}.integration-row small{display:block;font-size:11px;color:var(--muted);margin-top:5px;line-height:1.7}
+@media(max-width:1180px){.skill-cards,.tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.skills-overview{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.skills-overview .stat{min-height:100px}.skill-cards,.tool-grid{grid-template-columns:1fr;max-height:530px}.integration-row{align-items:start}.integration-row .skill-state{flex:none}.skill-filters .search{min-width:100%}}
