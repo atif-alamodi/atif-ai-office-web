@@ -26,3 +26,14 @@
 .connect-error{color:#ffb2b2;min-height:18px;line-height:1.7;font-size:12px}
 .connect-foot{line-height:1.8;color:#93a6c3;margin:16px 0 0;font-size:11px}
 #chat-connection-status{max-width:230px;text-wrap:balance;line-height:1.5}
+
+.bubble-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px;border-top:1px solid var(--line);padding-top:9px}
+.word-button{background:#293854;color:#c3f0d7;border:1px solid #557c6b;border-radius:8px;padding:6px 10px;font-size:11px;cursor:pointer}
+.btn-word{background:#243f38;color:#b9e9d0;border:1px solid #427f6c;min-height:34px;padding:7px 10px}
+.doc-row{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.doc-row:last-child{border-bottom:0}
+.doc-icon{background:#244736;color:#c8f5df;display:grid;place-items:center;border-radius:10px;width:39px;height:43px;font:bold 18px system-ui}
+.doc-details{flex:1;min-width:180px}
+.doc-details strong{display:block;font-size:13px;line-height:1.7}
+.doc-details small{display:block;font-size:11px;color:#97aac5;margin-top:5px}
+@media(max-width:800px){.mobile-nav button{min-width:43px;font-size:9px}.doc-row .btn{padding:8px;font-size:11px}.section-heading.top-heading{flex-wrap:wrap}}

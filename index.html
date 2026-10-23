@@ -23,7 +23,7 @@
  <nav class="primary-nav" aria-label="التنقل الرئيسي">
   <button data-route="dashboard" class="nav active"><span>◫</span> نظرة عامة</button>
   <button data-route="chat" class="nav"><span>◉</span> غرفة المحادثات</button>
-  <button data-route="tasks" class="nav"><span>☷</span> إدارة المهام</button>
+  <button data-route="tasks" class="nav"><span>☷</span> إدارة المهام</button><button data-route="documents" class="nav"><span>▣</span> المستندات</button>
   <button data-route="approvals" class="nav"><span>✓</span> الاعتمادات <em id="nav-approval-count">0</em></button>
  </nav>
  <div class="sidebar-cap with-space">فريقك الرقمي <span>04</span></div>
@@ -47,7 +47,7 @@
    <div class="panel task-preview" id="recent-tasks"></div>
   </section>
   <section id="view-chat" class="view" aria-label="غرفة المحادثات">
-   <div class="section-heading top-heading"><div><p class="eyebrow">AGENT WORKSPACE</p><h1>غرفة المحادثات</h1><p class="subtext">اختر الوكيل المناسب، وتابع محادثاتك في مكان واحد.</p></div></div>
+   <div class="section-heading top-heading"><div><p class="eyebrow">AGENT WORKSPACE</p><h1>غرفة المحادثات</h1><p class="subtext">اختر الوكيل المناسب، واطلب إنشاء العقود والخطابات والتقارير وملفات Word.</p></div><button class="btn btn-ghost" data-route="documents">مستنداتي ▣</button></div>
    <div class="chat-shell"><div class="chat-agents" id="chat-agents"></div><div class="chat-panel"><div class="chat-head"><span class="round-avatar" id="chat-avatar">خ</span><div><strong id="chat-agent-name">خلود</strong><small id="chat-agent-role">الموارد البشرية والامتثال</small></div><span class="chat-status" id="chat-connection-status">غير متصل بمحرك AI</span></div><div id="chat-messages" class="chat-messages" aria-live="polite"></div><div class="chat-compose"><div class="chat-notice" id="chat-auth-notice">يستخدم فريقك نموذج GPT-OSS المجاني. أدخل رمز دخول المكتب مرة واحدة لكل جلسة، ولا تستخدم بيانات موظفين حساسة.</div><button type="button" id="connect-from-chat" class="btn btn-connect-inline">تفعيل الوكلاء الآن <span aria-hidden="true">←</span></button><form id="chat-form" class="compose-row"><textarea id="chat-input" rows="2" placeholder="اكتب رسالتك للوكيل..." maxlength="5000" required></textarea><button class="btn btn-primary send-btn" type="submit" aria-label="إرسال">↗</button></form></div></div></div>
   </section>
   <section id="view-tasks" class="view" aria-label="المهام">
@@ -55,7 +55,11 @@
    <div class="filter-row"><input id="task-search" class="field search" placeholder="بحث في المهام..."><select id="task-filter" class="field"><option value="all">جميع الحالات</option><option value="pending">جديدة</option><option value="progress">قيد العمل</option><option value="review">بانتظار الاعتماد</option><option value="done">مكتملة</option></select><select id="agent-filter" class="field"><option value="all">جميع الوكلاء</option><option value="khulood">خلود</option><option value="diala">ديالا</option><option value="joanna">جوانا</option><option value="anas">أنس</option></select></div>
    <div class="panel" id="tasks-list"></div>
   </section>
-  <section id="view-approvals" class="view" aria-label="الاعتمادات">
+  <section id="view-documents" class="view" aria-label="المستندات">
+ <div class="section-heading top-heading"><div><p class="eyebrow">DOCUMENTS & DELIVERABLES</p><h1>مستنداتي</h1><p class="subtext">كل المستندات التي أعدها الوكلاء محفوظة محليًا على هذا الجهاز، ويمكن تنزيلها بصيغة Word.</p></div><button class="btn btn-ghost" data-route="chat">العودة للفريق ←</button></div>
+ <div id="documents-list" class="panel"></div>
+ </section>
+ <section id="view-approvals" class="view" aria-label="الاعتمادات">
    <div class="section-heading top-heading"><div><p class="eyebrow">CONTROL & REVIEW</p><h1>الاعتمادات</h1><p class="subtext">راجع الطلبات قبل إتمامها. اعتماد الحالة هنا لا ينفّذ إجراءات في أنظمة خارجية.</p></div></div>
    <div class="panel" id="approvals-list"></div>
   </section>
@@ -64,12 +68,12 @@
    <div class="settings-grid">
     <div class="panel settings-box"><h2>الاتصال بمحرك AI</h2><p>الوكلاء يستخدمون GPT-OSS 20B المجاني عبر BlockRun؛ لا تحتاج إلى بطاقة أو اشتراك أو مفتاح نموذج. تتطلب خدمة الوكلاء الاتصال بالإنترنت، ولا تتصل بالتطبيقات الخارجية تلقائيًا.</p><label for="api-endpoint">عنوان واجهة API</label><input id="api-endpoint" class="field" type="url" placeholder="https://your-server.example.com/api/chat"><label for="access-code">رمز الوصول للخادم (مطلوب للتشغيل)</label><input id="access-code" class="field" type="password" placeholder="أدخله في كل جلسة عند الحاجة" autocomplete="off"><small>هذا رمز دخول التطبيق نفسه، وليس مفتاح نموذج لغوي. يُحفظ خلال جلسة المتصفح فقط.</small><div class="connection-check"><strong>حالة محرك الوكلاء</strong><p id="diagnostic-status" aria-live="polite">اضغط «فحص الخادم» لمعرفة ما ينقص لتشغيل الوكلاء.</p><div class="setting-actions"><button class="btn btn-ghost" type="button" id="check-api">فحص الخادم</button><a class="btn btn-ghost" href="https://blockrun.ai/free-gpt-oss" target="_blank" rel="noopener noreferrer">تفاصيل النموذج المجاني ↗</a></div></div><div class="setting-actions"><button class="btn btn-primary" id="save-api">حفظ وفحص الاتصال</button><button class="btn btn-ghost" id="clear-api">قطع الاتصال</button></div></div>
     <div class="panel settings-box"><h2>بيانات مساحة العمل</h2><p>المهام والمحادثات محفوظة محليًا في متصفحك، وليست متزامنة بين الأجهزة.</p><div class="setting-actions"><button id="export-data" class="btn btn-ghost">تصدير نسخة JSON</button><label class="btn btn-ghost file-label">استيراد نسخة <input type="file" id="import-data" accept=".json,application/json" hidden></label></div><div class="divider-line"></div><h3>الخصوصية</h3><p>لا تدخل بيانات رواتب أو هويات أو ملفات قانونية حساسة حتى يتم إعداد المصادقة والتخزين الآمن والصلاحيات.</p><button class="btn btn-danger" id="erase-data">مسح بيانات هذا الجهاز</button></div>
-    <div class="panel settings-box"><h2>تثبيت التطبيق على الجوال</h2><p>افتح رابط التطبيق المنشور عبر HTTPS في Chrome على أندرويد، ثم القائمة ⋮ ← إضافة إلى الشاشة الرئيسية أو تثبيت التطبيق.</p><button class="btn btn-ghost" id="manual-install">عرض التعليمات</button><p id="app-version">الإصدار 0.5.0 — GPT-OSS مجاني</p></div>
+    <div class="panel settings-box"><h2>تثبيت التطبيق على الجوال</h2><p>افتح رابط التطبيق المنشور عبر HTTPS في Chrome على أندرويد، ثم القائمة ⋮ ← إضافة إلى الشاشة الرئيسية أو تثبيت التطبيق.</p><button class="btn btn-ghost" id="manual-install">عرض التعليمات</button><p id="app-version">الإصدار 0.6.0 — إنشاء مستندات Word</p></div>
     <div class="panel settings-box"><h2>حدود النسخة الحالية</h2><p>يمكن إضافة المهام وتعديلها وحفظ المحادثات دون إنترنت. الردود الذكية تتطلب خادمًا موصولًا. تنفيذ عمليات Gmail وHRIS وغيرها يحتاج إلى تكاملات وصلاحيات خادمية مستقلة.</p></div>
    </div>
   </section>
  </main>
- <nav class="mobile-nav" aria-label="شريط الجوال"><button data-route="dashboard" class="active"><span>⌂</span>الرئيسية</button><button data-route="chat"><span>◉</span>الفريق</button><button data-route="tasks"><span>☷</span>المهام</button><button data-route="approvals"><span>✓</span>الاعتماد</button><button data-route="settings"><span>⚙</span>المزيد</button></nav>
+ <nav class="mobile-nav" aria-label="شريط الجوال"><button data-route="dashboard" class="active"><span>⌂</span>الرئيسية</button><button data-route="chat"><span>◉</span>الفريق</button><button data-route="tasks"><span>☷</span>المهام</button><button data-route="documents"><span>▣</span>ملفاتي</button><button data-route="approvals"><span>✓</span>الاعتماد</button><button data-route="settings"><span>⚙</span>المزيد</button></nav>
 </div>
 </div>
 <div id="connect-backdrop" class="modal-backdrop" hidden>
@@ -87,6 +91,6 @@
 </div>
 <div id="modal-backdrop" class="modal-backdrop" hidden><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal-head"><h2 id="modal-title">مهمة جديدة</h2><button id="close-modal" aria-label="إغلاق">×</button></div><form id="task-form"><label for="task-title">عنوان المهمة</label><input id="task-title" class="field" required maxlength="130" placeholder="مثال: مراجعة تقرير الموارد البشرية"><label for="task-agent">المسؤول</label><select id="task-agent" class="field"><option value="khulood">خلود</option><option value="diala">ديالا</option><option value="joanna">جوانا</option><option value="anas">أنس</option></select><label for="task-note">تفاصيل إضافية</label><textarea id="task-note" class="field" rows="3" maxlength="2000" placeholder="تعليمات أو ملاحظات"></textarea><button type="submit" class="btn btn-primary full-btn">إضافة المهمة</button></form></div></div>
 <div id="toast" role="status" aria-live="polite"></div>
-<script src="./app.js" defer></script>
+<script src="./docx.js" defer></script><script src="./app.js" defer></script>
 </body>
 </html>
