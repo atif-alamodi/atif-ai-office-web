@@ -249,9 +249,9 @@ function renderDocuments(){
 }
 
 function renderChat(){const a=agent(activeAgent);$$('.chat-agent').forEach(el=>el.classList.toggle('active',el.dataset.agent===activeAgent));$('#chat-avatar').textContent=a.letter;$('#chat-avatar').style.background=a.color+'30';$('#chat-avatar').style.color=a.color;$('#chat-agent-name').textContent=a.name;$('#chat-agent-role').textContent=a.role;const hasCode=!!sessionStorage.getItem('atif-office-code');
-$('#chat-connection-status').textContent=!db.endpoint?'الخادم غير مضبوط':!hasCode?'بانتظار رمز الدخول':verifiedSession?'متصل — GPT-OSS مجاني':'رمز محفوظ — تحقق من الدخول';
+$('#chat-connection-status').textContent=!db.endpoint?'الخادم غير مضبوط':!hasCode?'بانتظار رمز الدخول':verifiedSession?'متصل — نموذج مجاني':'رمز محفوظ — تحقق من الدخول';
 $('#connect-from-chat').hidden=hasCode&&verifiedSession;
-$('#chat-auth-notice').textContent=hasCode&&verifiedSession?'تم تفعيل الوكلاء الأربعة. يمكنك إرسال الرسائل والمهام إلى نموذج GPT-OSS المجاني، دون صلاحيات للأنظمة الخارجية.':'للتحدث إلى خلود وديالا وجوانا وأنس أدخل رمز دخول المكتب مرة واحدة في هذه الجلسة.';let entries=db.chats[activeAgent]||[];let feed=$('#chat-messages');feed.innerHTML='<div class="bubble agent"><div class="message-label">'+a.name+'</div>'+safe(a.hello)+'</div>'+entries.map((m,i)=>'<div class="bubble '+(m.role==='user'?'me':'agent')+'"><div class="message-label">'+(m.role==='user'?'أنت':a.name)+'</div>'+safe(m.text)+(m.role==='assistant'&&m.text.length>50?'<div class="bubble-actions"><button data-chat-word="'+i+'" class="word-button">تنزيل Word</button>'+(m.docId?'<button data-doc-open="'+safe(m.docId)+'" class="word-button">عرض في المستندات</button>':'')+'</div>':'')+'</div>').join('');feed.scrollTop=feed.scrollHeight;}
+$('#chat-auth-notice').textContent=hasCode&&verifiedSession?'تم تفعيل الوكلاء الأربعة. يمكنك إرسال الرسائل والمهام إلى النموذج المجاني، دون صلاحيات للأنظمة الخارجية.':'للتحدث إلى خلود وديالا وجوانا وأنس أدخل رمز دخول المكتب مرة واحدة في هذه الجلسة.';let entries=db.chats[activeAgent]||[];let feed=$('#chat-messages');feed.innerHTML='<div class="bubble agent"><div class="message-label">'+a.name+'</div>'+safe(a.hello)+'</div>'+entries.map((m,i)=>'<div class="bubble '+(m.role==='user'?'me':'agent')+'"><div class="message-label">'+(m.role==='user'?'أنت':a.name)+'</div>'+safe(m.text)+(m.role==='assistant'&&m.text.length>50?'<div class="bubble-actions"><button data-chat-word="'+i+'" class="word-button">تنزيل Word</button>'+(m.docId?'<button data-doc-open="'+safe(m.docId)+'" class="word-button">عرض في المستندات</button>':'')+'</div>':'')+'</div>').join('');feed.scrollTop=feed.scrollHeight;}
 function render(){renderNav();renderStats();renderTasks();renderDocuments();renderSkills();renderWorkflowResults();renderChat();if(currentRoute==='settings'){$('#api-endpoint').value=db.endpoint;}}
 function addTask(title,who,note){
  const t={id:'t-'+Date.now()+'-'+Math.random().toString(36).slice(2,6),title,agent:who,note,status:'pending',createdAt:new Date().toISOString(),result:'',error:''};
@@ -381,7 +381,7 @@ async function diagnoseAI(){
   const data=await response.json();
   if(!response.ok)throw Error(data.error||'HTTP '+response.status);
   if(data.ready===true){
-    status.textContent='خادم GPT-OSS المجاني جاهز للتجربة. '+(sessionStorage.getItem('atif-office-code')?'جرّب تشغيل المهمة الآن.':'أدخل رمز دخول التطبيق واضغط حفظ، ثم شغّل المهمة.');
+    status.textContent='خادم النموذج المجاني جاهز للتجربة. '+(sessionStorage.getItem('atif-office-code')?'جرّب تشغيل المهمة الآن.':'أدخل رمز دخول التطبيق واضغط حفظ، ثم شغّل المهمة.');
   }else{
     const missing=Array.isArray(data.missing)?data.missing.join('، '):'إعدادات النموذج';
     status.textContent='الخادم متاح لكنه يحتاج إعدادًا: '+missing+'. لا يلزم مفتاح نموذج مدفوع.';
