@@ -11,3 +11,7 @@
 .task-result small{font-size:10px;color:#e7c692}
 .task-error{border:1px solid #ba565566;background:#802f2f29;padding:10px 12px;border-radius:10px;color:#ffb3b3;font-size:12px;margin-bottom:8px}
 .task-row-extended .task-controls{width:auto;flex-wrap:wrap}.task-row-extended .task-summary{min-width:140px}
+
+.connection-check{background:#0d1828;border:1px solid #6378a53d;padding:13px 14px;border-radius:13px;display:flex;flex-direction:column;gap:7px}
+.connection-check strong{font-size:13px}.connection-check #diagnostic-status{color:#edc997;line-height:2;font-size:12px}
+.connection-check a.btn{min-width:0;text-align:center}
